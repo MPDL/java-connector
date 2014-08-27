@@ -19,7 +19,7 @@ import de.mpg.mpdl.services.util.PropertyReader;
 
 public class MediaConverterService {
 
-	public static File convertFromURL(String serviceTargetURL, String mediaURL,OutputFormat outputFormat, String outputSize, String crop) throws IOException, URISyntaxException {
+	public File convertFromURL(String serviceTargetURL, String mediaURL,OutputFormat outputFormat, String outputSize, String crop) throws IOException, URISyntaxException {
 		File cFile = File.createTempFile("mediaConverter_", "." + outputFormat);
 
 		if ("".equalsIgnoreCase(serviceTargetURL))
@@ -34,7 +34,7 @@ public class MediaConverterService {
 		return cFile;
 	}
 
-	public static File convertFromFile(String serviceTargetURL, File f, OutputFormat outputFormat, String outputSize, String crop)throws IOException, URISyntaxException {
+	public File convertFromFile(String serviceTargetURL, File f, OutputFormat outputFormat, String outputSize, String crop)throws IOException, URISyntaxException {
 		File cFile = File.createTempFile("mediaConverter_", "." + outputFormat);
 
 		if ("".equalsIgnoreCase(serviceTargetURL))
@@ -51,7 +51,7 @@ public class MediaConverterService {
 		return cFile;
 	}
 
-	public static String addParameterstoURL(String mediaURL,
+	public String addParameterstoURL(String mediaURL,
 			String outputFormat, String outputSize, String crop) {
 		if (mediaURL == null)
 			return "?format=" + outputFormat + "&size=" + outputSize + "&crop=" + crop;

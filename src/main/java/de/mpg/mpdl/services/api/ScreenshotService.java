@@ -17,7 +17,7 @@ import de.mpg.mpdl.services.util.PropertyReader;
 
 public class ScreenshotService {
 	
-	public static File captureFromURL(String serviceTargetURL, String url, OutputFormat outputFormat, String outputSize, String crop)throws IOException, URISyntaxException{
+	public File captureFromURL(String serviceTargetURL, String url, OutputFormat outputFormat, String outputSize, String crop)throws IOException, URISyntaxException{
 		File ssFile = File.createTempFile("screenshot_", "." + outputFormat);
 
 		if("".equalsIgnoreCase(serviceTargetURL))
@@ -32,7 +32,7 @@ public class ScreenshotService {
 	}
 	
 	
-	public static File captureFromHTML(String serviceTargetURL, String html, OutputFormat outputFormat, String outputSize, String crop)throws IOException, URISyntaxException{
+	public File captureFromHTML(String serviceTargetURL, String html, OutputFormat outputFormat, String outputSize, String crop)throws IOException, URISyntaxException{
 		File ssFile = File.createTempFile("screenshot_", "." + outputFormat);
 
 		if("".equalsIgnoreCase(serviceTargetURL))

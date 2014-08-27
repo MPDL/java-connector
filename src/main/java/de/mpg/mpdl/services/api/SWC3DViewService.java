@@ -31,7 +31,7 @@ public class SWC3DViewService {
      * @throws IOException
      * @throws URISyntaxException 
      */
-	public static File generateFromFile(String serviceTargetURL, File f, boolean portable) throws IOException, URISyntaxException{
+	public File generateFromFile(String serviceTargetURL, File f, boolean portable) throws IOException, URISyntaxException{
 		if("".equalsIgnoreCase(serviceTargetURL))
 			serviceTargetURL = PropertyReader.getProperty("swc.3Dview.targetURL");
 		File respFile = File.createTempFile("swc_3d", ".html");
@@ -57,7 +57,7 @@ public class SWC3DViewService {
      * @throws IOException
      * @throws URISyntaxException 
      */
-	public static File generateFromString(String serviceTargetURL, String swcInString, boolean portable) throws IOException, URISyntaxException{
+	public File generateFromString(String serviceTargetURL, String swcInString, boolean portable) throws IOException, URISyntaxException{
 		if("".equalsIgnoreCase(serviceTargetURL))
 			serviceTargetURL = PropertyReader.getProperty("swc.3Dview.targetURL");
 		File respFile = File.createTempFile("swc_3d", ".html");	
@@ -81,7 +81,7 @@ public class SWC3DViewService {
      * @throws IOException
      * @throws URISyntaxException 
      */
-	public static File generateFromURL(String serviceTargetURL, String url, boolean portable) throws IOException, URISyntaxException{
+	public File generateFromURL(String serviceTargetURL, String url, boolean portable) throws IOException, URISyntaxException{
 		if("".equalsIgnoreCase(serviceTargetURL))
 			serviceTargetURL = PropertyReader.getProperty("swc.3Dview.targetURL");
 		File respFile = File.createTempFile("swc_3d", ".html");	
