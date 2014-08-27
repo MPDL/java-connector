@@ -16,7 +16,7 @@ public class PropertyReader
 {
     private static Properties properties;
 
-    private static final String DEFAULT_PROPERTY_FILE = "services.properties";
+    private static final String DEFAULT_PROPERTY_FILE = "java-connector.properties";
     /**
      * Gets the value of a property for the given key from the system properties or the services property file.
      * It is always tried to get the requested property value from the system properties.
