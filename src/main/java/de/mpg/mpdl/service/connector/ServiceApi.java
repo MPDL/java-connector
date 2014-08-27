@@ -1,4 +1,4 @@
-package de.mpg.mpdl.services.api;
+package de.mpg.mpdl.service.connector;
 
 public class ServiceApi extends ClassLoader{
 

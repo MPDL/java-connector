@@ -1,4 +1,4 @@
-package de.mpg.mpdl.services.util;
+package de.mpg.mpdl.service.connector.util;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

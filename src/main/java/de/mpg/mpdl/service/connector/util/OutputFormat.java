@@ -1,4 +1,4 @@
-package de.mpg.mpdl.services.util;
+package de.mpg.mpdl.service.connector.util;
 
 public enum OutputFormat {
 	PNG("png"), 

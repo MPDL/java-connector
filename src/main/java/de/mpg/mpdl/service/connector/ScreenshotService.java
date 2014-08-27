@@ -1,4 +1,4 @@
-package de.mpg.mpdl.services.api;
+package de.mpg.mpdl.service.connector;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,8 +10,8 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.io.IOUtils;
 
-import de.mpg.mpdl.services.util.OutputFormat;
-import de.mpg.mpdl.services.util.PropertyReader;
+import de.mpg.mpdl.service.connector.util.OutputFormat;
+import de.mpg.mpdl.service.connector.util.PropertyReader;
 
 
 
