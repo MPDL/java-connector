@@ -22,8 +22,8 @@ Dependency configuration would be as follows
 and add the following repository definition tou your pom.xml in repositories section
 ```
 <repository>
-<id>nexus</id>
-<name>Max Planck Digital Library Maven Repository</name>
+    <id>nexus</id>
+    <name>Max Planck Digital Library Maven Repository</name>
     <url>http://rd.mpdl.mpg.de/nexus/content/groups/public</url>
 </repository>
 ```
