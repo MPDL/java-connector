@@ -1,6 +1,6 @@
 package de.mpg.mpdl.service.connector;
 
-public class ServiceApi extends ClassLoader{
+public class Connector extends ClassLoader{
 
 	
 	
@@ -18,5 +18,4 @@ public class ServiceApi extends ClassLoader{
 	{
 		return SWC3DViewService.class.newInstance();
 	}
-
 }

@@ -18,10 +18,10 @@ public class PropertyReader
 
     private static final String DEFAULT_PROPERTY_FILE = "java-connector.properties";
     /**
-     * Gets the value of a property for the given key from the system properties or the services property file.
+     * Gets the value of a property for the given key from the system properties or the service property file.
      * It is always tried to get the requested property value from the system properties.
      * This option gives the opportunity to set a specific property temporary using the system properties.
-     * If the requested property could not be obtained from the system properties the services property file is accessed.
+     * If the requested property could not be obtained from the system properties the service property file is accessed.
      * (For details on access to the properties file see class description.)
      *
      * @param key The key of the property.
@@ -31,7 +31,6 @@ public class PropertyReader
      */
     public static String getProperty(String key)
     {
-
         if (properties == null)
         {
             loadProperties();

@@ -18,16 +18,16 @@ import de.mpg.mpdl.service.connector.util.PropertyReader;
 
 
 
-public class SWC3DViewService {
+public class SWC3DViewService extends ServiceClient{
 	
 	
     /**
-     * Generates 3D View from MPDL 3D View Service
+     * Generates 3D View from MPDL 3D View Service.
      * 
-     * @param serviceTargetURL URL of your Service. "" for using MPDL SWC 3D Viewer services.
+     * @param serviceTargetURL URL of your Service. "" for using MPDL SWC 3D Viewer service.
      * @param f .swc raw file.
-     * @param portable set true for getting 3D View with local javascript.
-     * @return 3D View File
+     * @param portable true for getting 3D View with local javascript.
+     * @return 3D View file
      * @throws IOException
      * @throws URISyntaxException 
      */
@@ -50,10 +50,10 @@ public class SWC3DViewService {
     /**
      * Generates 3D View from MPDL 3D View Service
      * 
-     * @param serviceTargetURL URL of your Service. "" for using MPDL SWC 3D Viewer services.
-     * @param swcInString .swc content.
-     * @param portable set true for getting 3D View with local javascript.
-     * @return 3D View File
+     * @param serviceTargetURL URL of your Service. "" for using MPDL SWC 3D Viewer service.
+     * @param swcInString .swc file content.
+     * @param portable true for getting 3D View with local javascript.
+     * @return 3D View file
      * @throws IOException
      * @throws URISyntaxException 
      */
@@ -74,10 +74,10 @@ public class SWC3DViewService {
     /**
      * Generates 3D View from MPDL 3D View Service
      * 
-     * @param serviceTargetURL URL of your Service. "" for using MPDL SWC 3D Viewer services.
-     * @param url .swc url.
-     * @param portable set true for getting 3D View with local javascript.
-     * @return 3D View File
+     * @param serviceTargetURL URL of your Service. "" for using MPDL SWC 3D Viewer service.
+     * @param url .swc file url.
+     * @param portable true for getting 3D View with local javascript.
+     * @return 3D View file
      * @throws IOException
      * @throws URISyntaxException 
      */

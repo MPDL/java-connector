@@ -15,23 +15,41 @@ import de.mpg.mpdl.service.connector.util.PropertyReader;
 
 
 
-public class ScreenshotService {
+public class ScreenshotService extends ServiceClient{
 	
+    /**
+     * Captures screenshot.
+     * 
+     * @param serviceTargetURL URL of your Service. "" for using MPDL screenshot service.
+     * @param url webpage url.
+     * @param outputFormat eg. png/jpeg..., "" for default format png.
+     * @param outputSize "" for original size. 
+     * @param crop eg. "40x30-10-10"
+     * @return screenshot file
+     * @throws IOException
+     * @throws URISyntaxException 
+     */	
 	public File captureFromURL(String serviceTargetURL, String url, OutputFormat outputFormat, String outputSize, String crop)throws IOException, URISyntaxException{
 		File ssFile = File.createTempFile("screenshot_", "." + outputFormat);
 
 		if("".equalsIgnoreCase(serviceTargetURL))
 			serviceTargetURL = PropertyReader.getProperty("screenshot.targetURL");
-
-		GetMethod get = new GetMethod(serviceTargetURL + addParameterstoURL(url, outputFormat.toString(), outputSize, crop));
-		HttpClient client = new HttpClient();
-		client.executeMethod(get);
-		IOUtils.copy(get.getResponseBodyAsStream(), new FileOutputStream(ssFile));
-		get.releaseConnection();
+		doGet(serviceTargetURL + addParameterstoURL(url, outputFormat.toString(), outputSize, crop), ssFile);
 		return ssFile;
 	}
 	
-	
+    /**
+     * Captures screenshot.
+     * 
+     * @param serviceTargetURL URL of your Service. "" for using MPDL screenshot service.
+     * @param html html content of the webpage.
+     * @param outputFormat eg. png/jpeg..., "" for default format png.
+     * @param outputSize "" for original size. 
+     * @param crop eg. "40x30-10-10"
+     * @return screenshot file
+     * @throws IOException
+     * @throws URISyntaxException 
+     */		
 	public File captureFromHTML(String serviceTargetURL, String html, OutputFormat outputFormat, String outputSize, String crop)throws IOException, URISyntaxException{
 		File ssFile = File.createTempFile("screenshot_", "." + outputFormat);
 
@@ -40,24 +58,12 @@ public class ScreenshotService {
 
 		PostMethod post = new PostMethod(serviceTargetURL + addParameterstoURL("", outputFormat.toString(), outputSize, crop));
 		post.setParameter("html", html);
-
 		HttpClient client = new HttpClient();
 		client.executeMethod(post);
 		IOUtils.copy(post.getResponseBodyAsStream(), new FileOutputStream(ssFile));
 		post.releaseConnection();
+		
 		return ssFile;
 	}
 	
-	
-	public static String addParameterstoURL(String url, String outputFormat, String outputSize, String crop){
-		if(url == null)
-			return "?format=" + outputFormat + "&size=" + outputSize + "&crop=" + crop;
-		else
-			return "?url=" + url + "&format=" + outputFormat + "&size=" + outputSize + "&crop=" + crop;
-	}
-	
-
-	
-
-
 }
