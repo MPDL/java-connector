@@ -4,6 +4,13 @@ Ein .jar library which offers the quickest and the most convenient way to use di
 
 ----------
 
+Usage:
+--------------------------------
+Using mpdl [screenshot service][1](eg.) by doing
+```
+Connector.getScreenshotService().captureFromURL("serviceTargetURL", "url", "outputFormat", "outputSize", "crop")
+```
+
 Download:
 --------------------------------
 The java-connecter can be downloaded manually or via maven.
@@ -28,3 +35,4 @@ and add the following repository definition tou your pom.xml in repositories sec
 </repository>
 ```
 
+[1]: https://github.com/MPDL/screenshot-service
