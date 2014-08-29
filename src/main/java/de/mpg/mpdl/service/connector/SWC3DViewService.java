@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -18,7 +20,9 @@ import de.mpg.mpdl.service.connector.util.PropertyReader;
 
 
 
-public class SWC3DViewService extends ServiceClient{
+public class SWC3DViewService extends RestClient{
+	
+	private static final String mpdlServiceTarget = PropertyReader.getProperty("swc.3Dview.targetURL");
 	
 	
     /**
@@ -32,18 +36,13 @@ public class SWC3DViewService extends ServiceClient{
      * @throws URISyntaxException 
      */
 	public File generateFromFile(String serviceTargetURL, File f, boolean portable) throws IOException, URISyntaxException{
-		if("".equalsIgnoreCase(serviceTargetURL))
-			serviceTargetURL = PropertyReader.getProperty("swc.3Dview.targetURL");
+		serviceTargetURL = getServiceTargetURL(serviceTargetURL);
 		File respFile = File.createTempFile("swc_3d", ".html");
 		
-		PostMethod post = new PostMethod(serviceTargetURL);
-		post.setParameter("swc", IOUtils.toString(new FileInputStream(f)));
-		post.setParameter("portable", String.valueOf(portable));
-
-		HttpClient client = new HttpClient();
-		client.executeMethod(post);
-		IOUtils.copy(post.getResponseBodyAsStream(), new FileOutputStream(respFile));
-		post.releaseConnection();
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("swc", IOUtils.toString(new FileInputStream(f)));
+		params.put("portable", String.valueOf(portable));
+		doPost(serviceTargetURL, params, respFile);
 		return respFile;
 	}
 	
@@ -58,16 +57,12 @@ public class SWC3DViewService extends ServiceClient{
      * @throws URISyntaxException 
      */
 	public File generateFromString(String serviceTargetURL, String swcInString, boolean portable) throws IOException, URISyntaxException{
-		if("".equalsIgnoreCase(serviceTargetURL))
-			serviceTargetURL = PropertyReader.getProperty("swc.3Dview.targetURL");
+		serviceTargetURL = getServiceTargetURL(serviceTargetURL);
 		File respFile = File.createTempFile("swc_3d", ".html");	
-		PostMethod post = new PostMethod(serviceTargetURL);
-		post.setParameter("swc", swcInString);		
-		post.setParameter("portable", String.valueOf(portable));
-		HttpClient client = new HttpClient();
-		client.executeMethod(post);
-		IOUtils.copy(post.getResponseBodyAsStream(), new FileOutputStream(respFile));
-		post.releaseConnection();
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("swc", swcInString);
+		params.put("portable", String.valueOf(portable));
+		doPost(serviceTargetURL, params, respFile);
 		return respFile;
 	}
 	
@@ -82,17 +77,20 @@ public class SWC3DViewService extends ServiceClient{
      * @throws URISyntaxException 
      */
 	public File generateFromURL(String serviceTargetURL, String url, boolean portable) throws IOException, URISyntaxException{
-		if("".equalsIgnoreCase(serviceTargetURL))
-			serviceTargetURL = PropertyReader.getProperty("swc.3Dview.targetURL");
+		serviceTargetURL = getServiceTargetURL(serviceTargetURL);
 		File respFile = File.createTempFile("swc_3d", ".html");	
-		PostMethod post = new PostMethod(serviceTargetURL);
-		post.setParameter("url", url);		
-		post.setParameter("portable", String.valueOf(portable));
-		HttpClient client = new HttpClient();
-		client.executeMethod(post);
-		IOUtils.copy(post.getResponseBodyAsStream(), new FileOutputStream(respFile));
-		post.releaseConnection();
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("url", url);
+		params.put("portable", String.valueOf(portable));
+		doPost(serviceTargetURL, params, respFile);		
 		return respFile;
+	}
+
+
+	String getServiceTargetURL(String url) {
+		if("".equalsIgnoreCase(url))
+			url = mpdlServiceTarget;
+		return url;
 	}
 	
 

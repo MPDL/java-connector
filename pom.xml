@@ -5,7 +5,7 @@
 	<groupId>de.mpg.mpdl.service</groupId>
 	<artifactId>java-connector</artifactId>
 	<name>java-connector</name>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.1</version>
 	<packaging>jar</packaging>
 	<scm>
 		<url>https://github.com/MPDL/java-connector</url>
@@ -54,5 +54,12 @@
 		    <artifactId>commons-io</artifactId>
 		    <version>1.3.2</version>
 		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>1.18.1</version>
+		</dependency>
+
+		
 	</dependencies>
 </project>

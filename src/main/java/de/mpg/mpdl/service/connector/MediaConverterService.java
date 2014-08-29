@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -17,8 +19,9 @@ import de.mpg.mpdl.service.connector.util.OutputFormat;
 import de.mpg.mpdl.service.connector.util.PropertyReader;
 
 
-public class MediaConverterService extends ServiceClient{
+public class MediaConverterService extends RestClient{
 
+	private static final String mpdlServiceTarget = PropertyReader.getProperty("mediaConverter.targetURL");
     /**
      * Converts media.
      * 
@@ -34,8 +37,7 @@ public class MediaConverterService extends ServiceClient{
 	public File convertFromURL(String serviceTargetURL, String mediaURL, OutputFormat outputFormat, String outputSize, String crop) throws IOException, URISyntaxException {
 		File cFile = File.createTempFile("mediaConverter_", "." + outputFormat);
 
-		if ("".equalsIgnoreCase(serviceTargetURL))
-			serviceTargetURL = PropertyReader.getProperty("mediaConverter.targetURL");
+		serviceTargetURL = getServiceTargetURL(serviceTargetURL);
 
 		doGet(serviceTargetURL + addParameterstoURL(mediaURL, outputFormat.toString(), outputSize, crop), cFile);
 		return cFile;
@@ -55,22 +57,16 @@ public class MediaConverterService extends ServiceClient{
      */	
 	public File convertFromFile(String serviceTargetURL, File mediaFile, OutputFormat outputFormat, String outputSize, String crop)throws IOException, URISyntaxException {
 		File cFile = File.createTempFile("mediaConverter_", "." + outputFormat);
-
-		if ("".equalsIgnoreCase(serviceTargetURL))
-			serviceTargetURL = PropertyReader.getProperty("mediaConverter.targetURL");
-
-		PostMethod post = new PostMethod(serviceTargetURL + addParameterstoURL(null, outputFormat.toString(), outputSize, crop));
-		Part[] parts = { new FilePart(mediaFile.getName(), mediaFile) };
-		post.setRequestEntity(new MultipartRequestEntity(parts, post.getParams()));
-		HttpClient client = new HttpClient();
-		client.executeMethod(post);
-		IOUtils.copy(post.getResponseBodyAsStream(), new FileOutputStream(cFile));
-		post.releaseConnection();
-		
+		serviceTargetURL = getServiceTargetURL(serviceTargetURL) + addParameterstoURL(null, outputFormat.toString(), outputSize, crop);
+		doPost(serviceTargetURL, mediaFile, cFile);
 		return cFile;
 	}
 
-
+	String getServiceTargetURL(String url) {
+		if("".equalsIgnoreCase(url))
+			url = mpdlServiceTarget;
+		return url;
+	}
 
 
 }

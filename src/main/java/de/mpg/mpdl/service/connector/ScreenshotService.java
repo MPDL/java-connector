@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -15,8 +17,9 @@ import de.mpg.mpdl.service.connector.util.PropertyReader;
 
 
 
-public class ScreenshotService extends ServiceClient{
+public class ScreenshotService extends RestClient{
 	
+	private static final String mpdlServiceTarget = PropertyReader.getProperty("screenshot.targetURL");
     /**
      * Captures screenshot.
      * 
@@ -32,8 +35,7 @@ public class ScreenshotService extends ServiceClient{
 	public File captureFromURL(String serviceTargetURL, String url, OutputFormat outputFormat, String outputSize, String crop)throws IOException, URISyntaxException{
 		File ssFile = File.createTempFile("screenshot_", "." + outputFormat);
 
-		if("".equalsIgnoreCase(serviceTargetURL))
-			serviceTargetURL = PropertyReader.getProperty("screenshot.targetURL");
+		serviceTargetURL = getServiceTargetURL(serviceTargetURL);
 		doGet(serviceTargetURL + addParameterstoURL(url, outputFormat.toString(), outputSize, crop), ssFile);
 		return ssFile;
 	}
@@ -52,18 +54,17 @@ public class ScreenshotService extends ServiceClient{
      */		
 	public File captureFromHTML(String serviceTargetURL, String html, OutputFormat outputFormat, String outputSize, String crop)throws IOException, URISyntaxException{
 		File ssFile = File.createTempFile("screenshot_", "." + outputFormat);
-
-		if("".equalsIgnoreCase(serviceTargetURL))
-			serviceTargetURL = PropertyReader.getProperty("screenshot.targetURL");
-
-		PostMethod post = new PostMethod(serviceTargetURL + addParameterstoURL("", outputFormat.toString(), outputSize, crop));
-		post.setParameter("html", html);
-		HttpClient client = new HttpClient();
-		client.executeMethod(post);
-		IOUtils.copy(post.getResponseBodyAsStream(), new FileOutputStream(ssFile));
-		post.releaseConnection();
-		
+		serviceTargetURL = getServiceTargetURL(serviceTargetURL) + addParameterstoURL("", outputFormat.toString(), outputSize, crop);
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("html", html);	
+		doPost(serviceTargetURL, params, ssFile);
 		return ssFile;
+	}
+
+	String getServiceTargetURL(String url) {
+		if("".equalsIgnoreCase(url))
+			url = mpdlServiceTarget;
+		return url;
 	}
 	
 }

@@ -18,4 +18,11 @@ public class Connector extends ClassLoader{
 	{
 		return SWC3DViewService.class.newInstance();
 	}
+	
+	public static SWCAnalysisService getSWCAnalysisService() throws InstantiationException, IllegalAccessException
+	{
+		return SWCAnalysisService.class.newInstance();
+	}
+	
+	
 }
