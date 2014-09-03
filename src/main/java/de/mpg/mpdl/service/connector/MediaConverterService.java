@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +21,17 @@ import de.mpg.mpdl.service.connector.util.PropertyReader;
 
 
 public class MediaConverterService extends RestClient{
+	
+	public static void main(String[] args) throws IOException, URISyntaxException {
+		
+		MediaConverterService test = new MediaConverterService();
+		File inputFile = new File("C:/Users/schudan/Desktop/test2.png");
+//		File datei = test.convertFromFile("", inputFile, OutputFormat.PNG, "", "");
+		File datei = test.convertFromURL("", "https://www.wikimedia.de/w/images.homepage/thumb/1/19/Digikompzlogo.jpg/170px-Digikompzlogo.jpg", OutputFormat.PNG, "", "");
+		File output = new File("C:/Users/schudan/Desktop/test20.png");
+		Files.copy(datei.toPath(), output.toPath());
+		
+	}
 
 	private static final String mpdlServiceTarget = PropertyReader.getProperty("mediaConverter.targetURL");
     /**
