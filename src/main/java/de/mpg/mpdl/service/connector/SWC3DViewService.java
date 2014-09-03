@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +22,16 @@ import de.mpg.mpdl.service.connector.util.PropertyReader;
 
 
 public class SWC3DViewService extends RestClient{
+	
+	public static void main(String[] args) throws IOException, URISyntaxException {
+		SWC3DViewService test = new SWC3DViewService();
+		File swc = new File("C:/Users/schudan/Desktop/HB060602_3ptSoma.swc");
+//		File datei = test.generateFromFile("http://vm15.mpdl.mpg.de/swc/api/view", swc, false);
+//		File datei = test.generateFromString("http://vm15.mpdl.mpg.de/swc/api/view", "1 1 293.400000000000 175.050000000000 154.350000000000 0.450601700000 -1", false);
+		File datei = test.generateFromURL("http://localhost:8080/swc/api/view", "http://localhost:8080/Service-api-webpage/Test.swc", false);
+		File output = new File("C:/Users/schudan/Desktop/test65.html");
+		Files.copy(datei.toPath(), output.toPath());
+	}
 	
 	private static final String mpdlServiceTarget = PropertyReader.getProperty("swc.3Dview.targetURL");
 	
@@ -79,10 +90,7 @@ public class SWC3DViewService extends RestClient{
 	public File generateFromURL(String serviceTargetURL, String url, boolean portable) throws IOException, URISyntaxException{
 		serviceTargetURL = getServiceTargetURL(serviceTargetURL);
 		File respFile = File.createTempFile("swc_3d", ".html");	
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("url", url);
-		params.put("portable", String.valueOf(portable));
-		doPost(serviceTargetURL, params, respFile);		
+		doGet(String.format(serviceTargetURL + "?url=%s&portable=%s", url, String.valueOf(portable) ), respFile);		
 		return respFile;
 	}
 

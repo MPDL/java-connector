@@ -3,6 +3,7 @@ package de.mpg.mpdl.service.connector;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +12,17 @@ import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 import de.mpg.mpdl.service.connector.util.PropertyReader;
 
 public class SWCAnalysisService extends RestClient{
+	
+	public static void main(String[] args) throws IOException, URISyntaxException, MessagingException {
+		SWCAnalysisService test = new SWCAnalysisService();
+//		File swc = new File("C:/Users/schudan/Desktop/HB060602_3ptSoma.swc");
+//		File datei = test.getAnalysisFromFile("", swc);
+//		File datei = test.getAnalysisFromString("", "5", "");
+		File datei = test.getAnalysisFromURL("http://localhost:8080/swc/api/analyze", "http://localhost:8080/Service-api-webpage/Test.swc", "");
+		File output = new File("C:/Users/schudan/Desktop/test71.html");
+		Files.copy(datei.toPath(), output.toPath());
+	}
+	
 	
 	private static final String mpdlServiceTarget = PropertyReader.getProperty("swc.analyze.targetURL");
 	
@@ -40,11 +52,15 @@ public class SWCAnalysisService extends RestClient{
      * @throws IOException
      * @throws URISyntaxException 
      */
-	public File getAnalysisFromString(String serviceTargetURL, String swcInString) throws IOException, URISyntaxException{
-		serviceTargetURL = getServiceTargetURL(serviceTargetURL);
+	public File getAnalysisFromString(String serviceTargetURL, String swcInString, String numberOfBins) throws IOException, URISyntaxException{
+		if("".equals(numberOfBins)) {
+			numberOfBins = "10";
+		}
+		serviceTargetURL = getServiceTargetURL(serviceTargetURL);		
 		File respFile = File.createTempFile("swc_3d", ".txt");	
 		Map<String, String> params = new HashMap<String, String>();
-		params.put("swc", swcInString);		
+		params.put("swc", swcInString);
+		params.put("numberOfBins", numberOfBins);
 		doPost(serviceTargetURL, params, respFile);
 		return respFile;
 	}
@@ -58,12 +74,13 @@ public class SWCAnalysisService extends RestClient{
      * @throws IOException
      * @throws URISyntaxException 
      */
-	public File getAnalysisFromURL(String serviceTargetURL, String url) throws IOException, URISyntaxException{
+	public File getAnalysisFromURL(String serviceTargetURL, String url, String numberOfBins) throws IOException, URISyntaxException{
+		if("".equals(numberOfBins)) {
+			numberOfBins = "10";
+		}
 		serviceTargetURL = getServiceTargetURL(serviceTargetURL);
-		File respFile = File.createTempFile("swc_3d", ".txt");	
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("url", url);	
-		doPost(serviceTargetURL, params, respFile);
+		File respFile = File.createTempFile("swc_3d", ".txt");		
+		doGet(serviceTargetURL + String.format("?url=%s&numberOfBins=%s", url, numberOfBins), respFile);
 		return respFile;
 	}
 	
