@@ -1,20 +1,11 @@
 package de.mpg.mpdl.service.connector;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.multipart.FilePart;
-import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
-import org.apache.commons.httpclient.methods.multipart.Part;
-import org.apache.commons.io.IOUtils;
+
 
 import de.mpg.mpdl.service.connector.util.OutputFormat;
 import de.mpg.mpdl.service.connector.util.PropertyReader;
