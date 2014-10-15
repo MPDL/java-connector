@@ -20,15 +20,7 @@ import de.mpg.mpdl.service.connector.util.PropertyReader;
 
 
 public class ScreenshotService extends RestClient{
-	
-	public static void main(String[] args) throws IOException, URISyntaxException {
-		ScreenshotService test = new ScreenshotService();
-//		File datei = test.captureFromURL("http://vm15.mpdl.mpg.de/screenshot/take", "http://mpdl.mpg.de", OutputFormat.PNG, "", "");
-		File datei = test.captureFromHTML("http://vm15.mpdl.mpg.de/screenshot/take", "<h1>Hallo Welt</h1>", OutputFormat.PNG, "", "");
-		File output = new File("C:/Users/schudan/Desktop/test51.png");
-		Files.copy(datei.toPath(), output.toPath());
-	}
-	
+
 	private static final String mpdlServiceTarget = PropertyReader.getProperty("screenshot.targetURL");
     /**
      * Captures screenshot.
