@@ -7,6 +7,10 @@ import java.nio.file.Files;
 
 
 
+
+import org.apache.commons.httpclient.methods.multipart.FilePart;
+import org.apache.commons.httpclient.methods.multipart.Part;
+
 import de.mpg.mpdl.service.connector.util.OutputFormat;
 import de.mpg.mpdl.service.connector.util.PropertyReader;
 
@@ -58,10 +62,11 @@ public class MediaConverterService extends RestClient{
      * @throws IOException
      * @throws URISyntaxException 
      */	
-	public File convertFromFile(String serviceTargetURL, File mediaFile, OutputFormat outputFormat, String outputSize, String crop)throws IOException, URISyntaxException {
+	public File convertFromFile(String serviceTargetURL, File f, OutputFormat outputFormat, String outputSize, String crop)throws IOException, URISyntaxException {
 		File cFile = File.createTempFile("mediaConverter_", "." + outputFormat);
 		serviceTargetURL = getServiceTargetURL(serviceTargetURL) + addParameterstoURL(null, outputFormat.toString(), outputSize, crop);
-		doPost(serviceTargetURL, mediaFile, cFile);
+		Part[] parts = { new FilePart(f.getName(), f) };
+		doPost(serviceTargetURL, parts, cFile);
 		return cFile;
 	}
 

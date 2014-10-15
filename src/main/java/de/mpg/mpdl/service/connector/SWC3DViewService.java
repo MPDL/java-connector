@@ -23,17 +23,29 @@ import de.mpg.mpdl.service.connector.util.PropertyReader;
 
 public class SWC3DViewService extends RestClient{
 	
-	public static void main(String[] args) throws IOException, URISyntaxException {
-		SWC3DViewService test = new SWC3DViewService();
-		File swc = new File("C:/Users/schudan/Desktop/HB060602_3ptSoma.swc");
-//		File datei = test.generateFromFile("http://vm15.mpdl.mpg.de/swc/api/view", swc, false);
-//		File datei = test.generateFromString("http://vm15.mpdl.mpg.de/swc/api/view", "1 1 293.400000000000 175.050000000000 154.350000000000 0.450601700000 -1", false);
-		File datei = test.generateFromURL("http://localhost:8080/swc/api/view", "http://localhost:8080/Service-api-webpage/Test.swc", false);
-		File output = new File("C:/Users/schudan/Desktop/test65.html");
-		Files.copy(datei.toPath(), output.toPath());
-	}
-	
 	private static final String mpdlServiceTarget = PropertyReader.getProperty("swc.3Dview.targetURL");
+	
+	
+    /**
+     * Generates 3D View from MPDL 3D View Service.
+     * 
+     * @param serviceTargetURL URL of your Service. "" for using MPDL SWC 3D Viewer service.
+     * @param inputStream .swc file input stream.
+     * @param portable true for getting 3D View with local javascript.
+     * @return 3D View file
+     * @throws IOException
+     * @throws URISyntaxException 
+     */
+	public File generateFromStream(String serviceTargetURL, InputStream inputStream, boolean portable) throws IOException, URISyntaxException{
+		serviceTargetURL = getServiceTargetURL(serviceTargetURL);
+		File respFile = File.createTempFile("swc_3d", ".html");
+		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("swc", IOUtils.toString(inputStream));
+		params.put("portable", String.valueOf(portable));
+		doPost(serviceTargetURL, params, respFile);
+		return respFile;
+	}
 	
 	
     /**

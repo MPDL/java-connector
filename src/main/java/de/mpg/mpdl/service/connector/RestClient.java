@@ -3,6 +3,7 @@ package de.mpg.mpdl.service.connector;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -23,9 +24,9 @@ import org.apache.commons.io.IOUtils;
 
 public abstract class RestClient {
 	
-	protected File doPost(String connURL, File requestFile, File respFile) throws IOException{
+	
+	protected File doPost(String connURL, Part[] parts, File respFile) throws IOException{
 		PostMethod post = new PostMethod(connURL);
-		Part[] parts = { new FilePart(requestFile.getName(), requestFile) };
 		post.setRequestEntity(new MultipartRequestEntity(parts, post.getParams()));
 		HttpClient client = new HttpClient();
 		client.executeMethod(post);
@@ -47,9 +48,6 @@ public abstract class RestClient {
 		post.releaseConnection();
 		return respFile;
 	}
-	
-	
-	
 	
 	protected File doGet(String connURL, File f) throws HttpException, IOException{
 		GetMethod get = new GetMethod(connURL);

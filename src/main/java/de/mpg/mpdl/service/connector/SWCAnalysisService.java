@@ -7,22 +7,14 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.httpclient.methods.multipart.FilePart;
+import org.apache.commons.httpclient.methods.multipart.Part;
+
 import com.sun.xml.internal.messaging.saaj.packaging.mime.MessagingException;
 
 import de.mpg.mpdl.service.connector.util.PropertyReader;
 
 public class SWCAnalysisService extends RestClient{
-	
-	public static void main(String[] args) throws IOException, URISyntaxException, MessagingException {
-		SWCAnalysisService test = new SWCAnalysisService();
-//		File swc = new File("C:/Users/schudan/Desktop/HB060602_3ptSoma.swc");
-//		File datei = test.getAnalysisFromFile("", swc);
-//		File datei = test.getAnalysisFromString("", "5", "");
-		File datei = test.getAnalysisFromURL("http://localhost:8080/swc/api/analyze", "http://localhost:8080/Service-api-webpage/Test.swc", "");
-		File output = new File("C:/Users/schudan/Desktop/test71.html");
-		Files.copy(datei.toPath(), output.toPath());
-	}
-	
 	
 	private static final String mpdlServiceTarget = PropertyReader.getProperty("swc.analyze.targetURL");
 	
@@ -39,7 +31,8 @@ public class SWCAnalysisService extends RestClient{
 	public File getAnalysisFromFile(String serviceTargetURL, File f) throws IOException, URISyntaxException, MessagingException{
 		serviceTargetURL = getServiceTargetURL(serviceTargetURL);
 		File respFile = File.createTempFile("swc_3d", ".txt");
-		doPost(serviceTargetURL, f, respFile);
+		Part[] parts = { new FilePart(f.getName(), f) };
+		doPost(serviceTargetURL, parts, respFile);
 		return respFile;
 	}
 	

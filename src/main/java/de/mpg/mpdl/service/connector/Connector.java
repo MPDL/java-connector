@@ -24,5 +24,17 @@ public class Connector extends ClassLoader{
 		return SWCAnalysisService.class.newInstance();
 	}
 	
+	public static FitsViewService getFitsViewService() throws InstantiationException, IllegalAccessException
+	{
+		return FitsViewService.class.newInstance();
+	}
+	
+	public static DataViewerService getDataViewerService() throws InstantiationException, IllegalAccessException
+	{
+		return DataViewerService.class.newInstance();
+	}
+	
+	
+	
 	
 }
